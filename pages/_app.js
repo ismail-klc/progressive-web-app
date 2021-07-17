@@ -4,15 +4,54 @@ import '../styles/user-card.style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import MyNavbar from '../components/navbar'
 import Header from '../components/header'
+import axios from 'axios'
 
-export default function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, user }) {
+  
   return (
     <>
       <Header />
       <RecoilRoot>
-        <MyNavbar />
+        <MyNavbar user={user} />
         <Component {...pageProps} />
       </RecoilRoot>
     </>
   )
 }
+
+MyApp.getInitialProps = async ({ ctx }) => {
+  if (ctx.req) {
+    try {
+    const url = process.env.API || 'http://localhost:8080'
+
+      const response = await axios.get(`${url}/api/currentuser`, {
+        headers: ctx.req.headers,
+        credentials: true,
+      });
+
+      console.log(response.status);
+
+      if (response.status === 200) {
+        // let pageProps = {};
+
+        const user = response.data
+        // if (Component.getInitialProps) {
+        //   pageProps = await Component.getInitialProps(ctx);
+        // }
+
+        return { user };
+
+      }
+      else {
+        return {
+        };
+      }
+    } catch (error) {
+      return {
+      };
+    }
+  }
+  return {}
+};
+
+export default MyApp

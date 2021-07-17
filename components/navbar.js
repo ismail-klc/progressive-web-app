@@ -1,17 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { authState } from '../states/auth'
+import { useRecoilState } from 'recoil'
 
 
-function MyNavbar() {
+function MyNavbar({ user }) {
     const router = useRouter()
+    const [auth, setAuth] = useRecoilState(authState);
+    const url = process.env.API || 'http://localhost:8080'
+
+    useEffect(() => {
+        setAuth(user)            
+    }, [])
+
+    const handleLogout = async (e) => {
+        e.preventDefault()
+
+        const res = await fetch(`${url}/api/signout`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+        })
+
+        if (res.status === 200) {
+            await router.push('/login');
+            setAuth(null)
+        }
+
+    }
 
     return (
-        <div style={{marginBottom: '80px'}}>
-            <Navbar 
+        <div style={{ marginBottom: '80px' }}>
+            <Navbar
                 fixed="top"
-                collapseOnSelect 
+                collapseOnSelect
                 expand="lg" bg="dark" variant="dark">
                 <Container>
                     <Link href="/">
@@ -30,12 +54,31 @@ function MyNavbar() {
                             <Link href="/photos">
                                 <a className={`nav-link ${router.route === '/photos' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Photos</a>
                             </Link>
-                            <Link href="/users">
-                                <a className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
-                            </Link>
-                            <Link href="/posts">
-                                <a className={`nav-link ${router.route === '/posts' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Posts</a>
-                            </Link>
+
+                            {
+                                auth &&
+                                <>
+                                    <Link href="/users">
+                                        <a className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
+                                    </Link>
+                                    <Link href="/posts">
+                                        <a className={`nav-link ${router.route === '/posts' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Posts</a>
+                                    </Link>
+                                    <a
+                                        onClick={handleLogout}
+                                        className={`nav-link`}
+                                        style={{ cursor: 'pointer' }}>Logout</a>
+                                </>
+                            }
+                            {
+                                !auth ?
+                                    <Link href="/login">
+                                        <a 
+                                            className={`nav-link`} 
+                                            style={{ cursor: 'pointer' }}>Login</a>
+                                    </Link> : null
+                            }
+
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
