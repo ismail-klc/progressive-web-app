@@ -13,6 +13,7 @@ a {
 * {
   box-sizing: border-box;
   outline: none;
+  box-shadow: none;
 }
 
 .form-signin
