@@ -43,14 +43,17 @@ MyApp.getInitialProps = async ({ ctx }) => {
 
       }
       else {
+
         return {
         };
       }
     } catch (error) {
+
       return {
       };
     }
   }
+
   return {}
 };
 
