@@ -15,12 +15,23 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const res = await axios.post(`${url}/api/signin`, { email, password }, {
-            withCredentials: true
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+
+        const res = await fetch(`${url}/api/signin`, {
+            method: 'POST',
+            mode: 'same-origin',
+            redirect: 'follow',
+            credentials: 'include',
+            headers: headers,
+            body: JSON.stringify({
+                email, password
+            })
         })
 
         if (res.status === 200) {
-            setAuth(res.data)
+            setAuth(res.json().user)
             await router.push('/')
         }
     }
