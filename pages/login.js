@@ -21,8 +21,6 @@ function Login() {
 
         const res = await fetch(`${url}/api/signin`, {
             method: 'POST',
-            mode: 'same-origin',
-            redirect: 'follow',
             credentials: 'include',
             headers: headers,
             body: JSON.stringify({
