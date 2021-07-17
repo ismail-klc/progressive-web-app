@@ -19,17 +19,13 @@ function Login() {
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
 
-        const res = await fetch(`${url}/api/signin`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: headers,
-            body: JSON.stringify({
-                email, password
-            })
+        const res = await axios.post(`${url}/api/signin`, {email, password},{
+            withCredentials: true,
+            headers: headers
         })
 
         if (res.status === 200) {
-            setAuth(res.json().user)
+            setAuth(res.data)
             await router.push('/')
         }
     }

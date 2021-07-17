@@ -32,18 +32,10 @@ MyApp.getInitialProps = async ({ ctx }) => {
       console.log(response.status);
 
       if (response.status === 200) {
-        // let pageProps = {};
-
         const user = response.data
-        // if (Component.getInitialProps) {
-        //   pageProps = await Component.getInitialProps(ctx);
-        // }
-
         return { user };
-
       }
       else {
-
         return {
         };
       }
