@@ -10,7 +10,7 @@ function Login() {
     const [password, setPassword] = useState('')
     const [auth, setAuth] = useRecoilState(authState);
 
-    const url = process.env.API || 'http://localhost:8080'
+    const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
     const handleSubmit = async (e) => {
         e.preventDefault()

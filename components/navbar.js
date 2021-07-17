@@ -9,7 +9,7 @@ import { useRecoilState } from 'recoil'
 function MyNavbar({ user }) {
     const router = useRouter()
     const [auth, setAuth] = useRecoilState(authState);
-    const url = process.env.API || 'http://localhost:8080'
+    const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
     useEffect(() => {
         setAuth(user)            

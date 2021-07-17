@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps, user }) {
 MyApp.getInitialProps = async ({ ctx }) => {
   if (ctx.req) {
     try {
-    const url = process.env.API || 'http://localhost:8080'
+    const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
       const response = await axios.get(`${url}/api/currentuser`, {
         headers: ctx.req.headers,
