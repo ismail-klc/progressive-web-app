@@ -7,7 +7,7 @@ import Header from '../components/header'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-function MyApp({ Component, pageProps, uuser }) {
+function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState(null)
 

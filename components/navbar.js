@@ -16,7 +16,7 @@ function MyNavbar({ user }) {
         setAuth({
             user,
             loaded: true
-        })            
+        })
     }, [])
 
     const handleLogout = async (e) => {
@@ -24,7 +24,7 @@ function MyNavbar({ user }) {
 
         const res = await fetch(`${url}/api/signout`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
         })
 
@@ -65,45 +65,59 @@ function MyNavbar({ user }) {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Link href="/" >
-                                <a 
-                                onClick={onClick}
-                                className={`nav-link ${router.route === '/' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Home</a>
+                                <a
+                                    onClick={onClick}
+                                    className={`nav-link ${router.route === '/' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Home</a>
                             </Link>
                             <Link href="/photos">
-                                <a 
+                                <a
                                     onClick={onClick}
-                                className={`nav-link ${router.route === '/photos' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Photos</a>
+                                    className={`nav-link ${router.route === '/photos' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Photos</a>
                             </Link>
 
                             {
                                 auth.user &&
                                 <>
                                     <Link href="/users">
-                                        <a 
-                                        onClick={onClick}
-                                        className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
+                                        <a
+                                            onClick={onClick}
+                                            className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
                                     </Link>
                                     <Link href="/posts">
-                                        <a 
-                                        onClick={onClick}
-                                        className={`nav-link ${router.route === '/posts' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Posts</a>
+                                        <a
+                                            onClick={onClick}
+                                            className={`nav-link ${router.route === '/posts' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Posts</a>
                                     </Link>
-                                    <a
-                                        onClick={handleLogout}
-                                        className={`nav-link`}
-                                        style={{ cursor: 'pointer' }}>Logout</a>
                                 </>
                             }
-                            {
-                                !auth.user ?
-                                    <Link href="/login">
-                                        <a 
-                                            onClick={onClick}
-                                            className={`nav-link`} 
-                                            style={{ cursor: 'pointer' }}>Login</a>
-                                    </Link> : null
-                            }
 
+                        </Nav>
+                        <Nav>
+                            {
+                                auth.user &&
+                                <NavDropdown
+                                title={auth.user.email} id="collasible-nav-dropdown">
+                                    <Link href="/profile">
+                                        <a
+                                            onClick={onClick}
+                                            className={`dropdown-item`} style={{ cursor: 'pointer' }}>Profile</a>
+                                    </Link>
+                                    <NavDropdown.Divider />
+                                    <a
+                                        onClick={handleLogout}
+                                        className={`dropdown-item`}
+                                        style={{ cursor: 'pointer' }}>Logout</a>
+                                </NavDropdown>
+                            }
+                            {
+                                !auth.user &&
+                                <Link href="/login">
+                                    <a
+                                        onClick={onClick}
+                                        className={`nav-link ${router.route === '/login' ? 'active' : null}`}
+                                        style={{ cursor: 'pointer' }}>Login</a>
+                                </Link>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
