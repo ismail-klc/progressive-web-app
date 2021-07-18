@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import MyNavbar from '../components/navbar'
 import Header from '../components/header'
 import axios from 'axios'
-import App from 'next/app';
 import { useEffect, useState } from 'react'
 
 function MyApp({ Component, pageProps, uuser }) {
@@ -28,7 +27,7 @@ function MyApp({ Component, pageProps, uuser }) {
 
           setUser(content.user);
         } catch (e) {
-          setUSer(null);
+          setUser(null);
         }
         setLoading(false)
       }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col } from 'react-bootstrap'
 import { useRecoilState } from 'recoil'
 import { authState } from '../states/auth'
@@ -11,6 +11,12 @@ function Login() {
     const [auth, setAuth] = useRecoilState(authState);
 
     const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
+
+    useEffect(() => {
+        if (auth.user) {
+            router.replace("/");
+        }
+    }, [auth])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -29,7 +35,6 @@ function Login() {
                 user: res.data,
                 loaded: true
             })
-            await router.push('/')
         }
     }
 

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Row } from 'react-bootstrap';
 import { useRecoilState } from 'recoil';
 import UserCard from '../../components/user-card';
+import withAuth from '../../hocs/withAuth';
 import { usersState } from '../../states/users';
 
 function Users() {
@@ -43,4 +44,4 @@ function Users() {
     )
 }
 
-export default Users
+export default withAuth(Users)

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import withLoaded from '../../hocs/withLoaded'
 
 function PhotoDetail() {
     const router = useRouter()
@@ -14,4 +15,4 @@ function PhotoDetail() {
     )
 }
 
-export default PhotoDetail
+export default withLoaded(PhotoDetail)

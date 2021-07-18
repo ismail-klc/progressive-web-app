@@ -3,23 +3,18 @@ import React, { useEffect } from 'react'
 import { Row } from 'react-bootstrap';
 import { useRecoilState } from 'recoil';
 import PhotoCard from "../../components/photo-card";
+import withLoaded from '../../hocs/withLoaded';
 import { photosState } from '../../states/photos';
 
-function Photos() {
+function Photos({ sPhotos }) {
     const [photos, setPhotos] = useRecoilState(photosState);
 
     useEffect(() => {
         if (photos.length === 0) {
-            getPhotos();
-            photos.filter(p => p.id < 20);
+            setPhotos(sPhotos)
         }           
     }, [photos])
 
-    const getPhotos = async () => {
-        const res = await axios.get('https://jsonplaceholder.typicode.com/photos/');
-        setPhotos(res.data.filter(p => p.id < 21));
-    }
-    
     return (
         <div className="container">
             <h2>Photos</h2>
@@ -43,4 +38,16 @@ function Photos() {
     )
 }
 
-export default Photos
+export async function getServerSideProps(context) {
+    console.log(context.preview);
+	const res = await axios.get('https://jsonplaceholder.typicode.com/photos/');
+	const sPhotos = await res.data.filter(p => p.id < 21)
+    console.log(sPhotos.length);
+	return {
+		props: {
+			sPhotos,
+		},
+	}
+}
+
+export default withLoaded(Photos)

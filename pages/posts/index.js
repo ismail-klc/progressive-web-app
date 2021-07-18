@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Row } from 'react-bootstrap';
 import { useRecoilState } from 'recoil';
 import PostCard from '../../components/post-card';
+import withAuth from '../../hocs/withAuth';
 import { postsState } from '../../states/posts';
 
 function Posts() {
@@ -40,4 +41,4 @@ function Posts() {
     )
 }
 
-export default Posts
+export default withAuth(Posts)

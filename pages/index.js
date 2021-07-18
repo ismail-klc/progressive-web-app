@@ -1,11 +1,12 @@
 import { Button, Container } from "react-bootstrap";
 import { useRecoilState } from "recoil";
+import withLoaded from "../hocs/withLoaded";
 import { authState } from "../states/auth";
 import { photosState } from "../states/photos";
 import { postsState } from "../states/posts";
 import { usersState } from "../states/users";
 
-export default function Home() {
+function Home() {
   const [photos] = useRecoilState(photosState);
   const [users] = useRecoilState(usersState);
   const [posts] = useRecoilState(postsState);
@@ -29,3 +30,5 @@ export default function Home() {
     </Container>
   )
 }
+
+export default withLoaded(Home)

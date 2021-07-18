@@ -4,6 +4,7 @@ import { selectorFamily, useRecoilValue } from 'recoil';
 import { postsState } from '../../states/posts';
 import Comment from '../../components/comment';
 import axios from 'axios';
+import withAuth from '../../hocs/withAuth';
 
 const getPostState = selectorFamily({
     key: 'getPostState',
@@ -86,4 +87,4 @@ export async function getStaticProps({ params }) {
     }
 }
 
-export default PostDetail
+export default withAuth(PostDetail)
