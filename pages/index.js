@@ -24,7 +24,7 @@ export default function Home() {
           posts: {posts.length}
         </h3>
         <h3>
-          auth: {auth ? 'true' : 'false'}
+          auth: {auth.loaded && auth.user ? 'true' : 'false'}
         </h3>
     </Container>
   )

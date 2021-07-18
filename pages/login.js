@@ -25,7 +25,10 @@ function Login() {
         })
 
         if (res.status === 200) {
-            setAuth(res.data)
+            setAuth({
+                user: res.data,
+                loaded: true
+            })
             await router.push('/')
         }
     }

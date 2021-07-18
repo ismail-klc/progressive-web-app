@@ -12,7 +12,10 @@ function MyNavbar({ user }) {
     const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
     useEffect(() => {
-        setAuth(user)            
+        setAuth({
+            user,
+            loaded: true
+        })            
     }, [])
 
     const handleLogout = async (e) => {
@@ -26,9 +29,16 @@ function MyNavbar({ user }) {
 
         if (res.status === 200) {
             await router.push('/login');
-            setAuth(null)
+            setAuth({
+                user: null,
+                loaded: true
+            })
         }
 
+    }
+
+    if (!auth.loaded) {
+        return null
     }
 
     return (
@@ -56,7 +66,7 @@ function MyNavbar({ user }) {
                             </Link>
 
                             {
-                                auth &&
+                                auth.user &&
                                 <>
                                     <Link href="/users">
                                         <a className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
@@ -71,7 +81,7 @@ function MyNavbar({ user }) {
                                 </>
                             }
                             {
-                                !auth ?
+                                !auth.user ?
                                     <Link href="/login">
                                         <a 
                                             className={`nav-link`} 

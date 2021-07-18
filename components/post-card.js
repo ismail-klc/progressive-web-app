@@ -11,8 +11,8 @@ function PostCard({
 }) {
 
     return (
-        <Col xs={12} sm={6} lg={4} xl={3}>
-            <Card style={{ margin: 'auto' }} className="mb-4">
+        <Col xs={12} sm={6} lg={6} xl={6} >
+            <Card className="mb-4 mx-auto">
                 <Card.Body>
                     <Card.Title>{title}</Card.Title>
                     <Card.Text>
