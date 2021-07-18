@@ -20,6 +20,9 @@ function MyApp({ Component, pageProps, user }) {
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
+  const appProps = await App.getInitialProps(appContext)
+  let user = null
+
   if (ctx.req) {
     try {
     const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
@@ -32,21 +35,13 @@ MyApp.getInitialProps = async ({ ctx }) => {
       console.log(response.status);
 
       if (response.status === 200) {
-        const user = response.data
-        return { user };
-      }
-      else {
-        return {
-        };
+        user = response.data
       }
     } catch (error) {
-
-      return {
-      };
     }
   }
 
-  return {}
+  return { ...appProps, user }
 };
 
 export default MyApp
