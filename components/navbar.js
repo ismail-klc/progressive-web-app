@@ -35,10 +35,10 @@ function MyNavbar({ user }) {
             })
             await router.push('/login');
         }
-        setNavExpanded(!navExpanded)
+        navExpanded && setNavExpanded(false)
     }
 
-    const onClick = () => setNavExpanded(!navExpanded)
+    const onClick = () => navExpanded && setNavExpanded(false)
 
     if (!auth.loaded) {
         return null
