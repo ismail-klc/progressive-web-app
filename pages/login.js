@@ -14,6 +14,7 @@ function Login() {
 
     useEffect(() => {
         if (auth.user) {
+            console.log(auth.user);
             router.replace("/");
         }
     }, [auth])

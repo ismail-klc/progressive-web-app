@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,6 +9,7 @@ import { useRecoilState } from 'recoil'
 function MyNavbar({ user }) {
     const router = useRouter()
     const [auth, setAuth] = useRecoilState(authState);
+    const [navExpanded, setNavExpanded] = useState(false)
     const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
     useEffect(() => {
@@ -28,14 +29,16 @@ function MyNavbar({ user }) {
         })
 
         if (res.status === 200) {
-            await router.push('/login');
             setAuth({
                 user: null,
                 loaded: true
             })
+            await router.push('/login');
         }
-
+        setNavExpanded(!navExpanded)
     }
+
+    const onClick = () => setNavExpanded(!navExpanded)
 
     if (!auth.loaded) {
         return null
@@ -44,6 +47,8 @@ function MyNavbar({ user }) {
     return (
         <div style={{ marginBottom: '80px' }}>
             <Navbar
+                expanded={navExpanded}
+                onToggle={setNavExpanded}
                 fixed="top"
                 collapseOnSelect
                 expand="lg" bg="dark" variant="dark">
@@ -55,24 +60,33 @@ function MyNavbar({ user }) {
                             </Navbar.Brand>
                         </a>
                     </Link>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Toggle
+                        aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Link href="/" cl>
-                                <a className={`nav-link ${router.route === '/' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Home</a>
+                            <Link href="/" >
+                                <a 
+                                onClick={onClick}
+                                className={`nav-link ${router.route === '/' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Home</a>
                             </Link>
                             <Link href="/photos">
-                                <a className={`nav-link ${router.route === '/photos' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Photos</a>
+                                <a 
+                                    onClick={onClick}
+                                className={`nav-link ${router.route === '/photos' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Photos</a>
                             </Link>
 
                             {
                                 auth.user &&
                                 <>
                                     <Link href="/users">
-                                        <a className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
+                                        <a 
+                                        onClick={onClick}
+                                        className={`nav-link ${router.route === '/users' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Users</a>
                                     </Link>
                                     <Link href="/posts">
-                                        <a className={`nav-link ${router.route === '/posts' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Posts</a>
+                                        <a 
+                                        onClick={onClick}
+                                        className={`nav-link ${router.route === '/posts' ? 'active' : null}`} style={{ cursor: 'pointer' }}>Posts</a>
                                     </Link>
                                     <a
                                         onClick={handleLogout}
@@ -84,6 +98,7 @@ function MyNavbar({ user }) {
                                 !auth.user ?
                                     <Link href="/login">
                                         <a 
+                                            onClick={onClick}
                                             className={`nav-link`} 
                                             style={{ cursor: 'pointer' }}>Login</a>
                                     </Link> : null

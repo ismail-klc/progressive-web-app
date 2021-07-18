@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button, Container } from "react-bootstrap";
 import { useRecoilState } from "recoil";
 import withLoaded from "../hocs/withLoaded";
@@ -14,19 +15,28 @@ function Home() {
 
   return (
     <Container>
-        <h2>Home</h2>
-        <h3>
-          photos: {photos.length}
-        </h3>
-        <h3>
-          users: {users.length}
-        </h3>
-        <h3>
-          posts: {posts.length}
-        </h3>
-        <h3>
-          auth: {auth.loaded && auth.user ? 'true' : 'false'}
-        </h3>
+      <h2>Home</h2>
+      <h3>
+        <Link href="/photos">
+          <a
+            style={{ cursor: 'pointer' }}>Photos:  {photos.length}</a>
+        </Link>
+      </h3>
+      <h3>
+      <Link href="/users">
+          <a
+            style={{ cursor: 'pointer' }}>Users:  {users.length}</a>
+        </Link>
+      </h3>
+      <h3>
+        <Link href="/posts">
+          <a
+            style={{ cursor: 'pointer' }}>Posts:  {posts.length}</a>
+        </Link>
+      </h3>
+      <h3>
+        auth: {auth.loaded && auth.user ? 'true' : 'false'}
+      </h3>
     </Container>
   )
 }
