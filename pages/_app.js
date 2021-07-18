@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import MyNavbar from '../components/navbar'
 import Header from '../components/header'
 import axios from 'axios'
+import App from 'next/app';
 
 function MyApp({ Component, pageProps, user }) {
   
@@ -19,16 +20,16 @@ function MyApp({ Component, pageProps, user }) {
   )
 }
 
-MyApp.getInitialProps = async ({ ctx }) => {
+MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext)
   let user = null
 
-  if (ctx.req) {
+  if (appContext.ctx.req) {
     try {
     const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
       const response = await axios.get(`${url}/api/currentuser`, {
-        headers: ctx.req.headers,
+        headers: appContext.ctx.req.headers,
         credentials: true,
       });
 
