@@ -32,13 +32,21 @@ function PostDetail({ id }) {
     }, [post, id])
 
     const getPost = async () => {
-        const res = await axios.get(`https://jsonplaceholder.typicode.com/posts?id=${id}`);
-        setPost(res.data[0]);
+        try {
+            const res = await axios.get(`https://jsonplaceholder.typicode.com/posts?id=${id}`);
+            setPost(res.data[0]);
+        } catch (error) {
+            setPost(null)
+        }
     }
 
     const getComments = async () => {
-        const res = await axios.get(url);
-        setComments(res.data);
+        try {
+            const res = await axios.get(url);
+            setComments(res.data);
+        } catch (error) {
+            setComments(null)
+        }
     }
 
     if (router.isFallback) {

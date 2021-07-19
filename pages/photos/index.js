@@ -39,11 +39,10 @@ function Photos({ sPhotos }) {
 }
 
 export async function getServerSideProps(context) {
-    console.log(context.preview);
 	const res = await axios.get('https://jsonplaceholder.typicode.com/photos/');
 	const sPhotos = await res.data.filter(p => p.id < 21)
-    console.log(sPhotos.length);
-	return {
+
+    return {
 		props: {
 			sPhotos,
 		},

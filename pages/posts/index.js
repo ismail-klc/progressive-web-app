@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import { Row } from 'react-bootstrap';
 import { useRecoilState } from 'recoil';
+import Loading from '../../components/loading';
 import PostCard from '../../components/post-card';
 import withAuth from '../../hocs/withAuth';
 import { postsState } from '../../states/posts';
@@ -16,8 +17,12 @@ function Posts() {
     }, [])
 
     const getPosts = async () => {
-        const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-        setPosts(res.data);
+        try {
+            const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+            setPosts(res.data);
+        } catch (error) {
+            setPosts(null)
+        }
     }
 
     return (
@@ -25,7 +30,7 @@ function Posts() {
             <h2>Posts</h2>
             <Row>
                 {
-                    posts.length === 0 ? "loading" :
+                    posts.length === 0 ? <Loading /> :
                         posts.map(u => (
                             <PostCard
                                 id={u.id}
@@ -35,6 +40,9 @@ function Posts() {
                                 key={u.id}
                             />
                         ))
+                }
+                {
+                    posts === null && "No data"
                 }
             </Row>
         </div>

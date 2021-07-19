@@ -4,13 +4,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { authState } from '../states/auth'
 import { useRecoilState } from 'recoil'
+import axios from '../helpers/axios'
 
 
 function MyNavbar({ user }) {
     const router = useRouter()
     const [auth, setAuth] = useRecoilState(authState);
     const [navExpanded, setNavExpanded] = useState(false)
-    const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
 
     useEffect(() => {
         setAuth({
@@ -22,12 +22,7 @@ function MyNavbar({ user }) {
     const handleLogout = async (e) => {
         e.preventDefault()
 
-        const res = await fetch(`${url}/api/signout`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-        })
-
+        const res = await axios.post(`/api/signout`, {})
         if (res.status === 200) {
             setAuth({
                 user: null,

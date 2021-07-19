@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
-import Login from "../pages/login";
 import { authState } from "../states/auth";
-import Router from 'next/router'
+import Loading from "../components/loading";
 
 const withLoaded = Component => {
     const Loaded = (props) => {
@@ -12,7 +11,7 @@ const withLoaded = Component => {
                 <Component {...props} />
             );
         }
-        return null;
+        return <Loading />;
     };
 
     if (Component.getInitialProps) {

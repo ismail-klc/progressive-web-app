@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import { Row } from 'react-bootstrap';
 import { useRecoilState } from 'recoil';
+import Loading from '../../components/loading';
 import UserCard from '../../components/user-card';
 import withAuth from '../../hocs/withAuth';
 import { usersState } from '../../states/users';
@@ -16,8 +17,12 @@ function Users() {
     }, [])
 
     const getUsers = async () => {
-        const res = await axios.get('https://jsonplaceholder.typicode.com/users');
-        setUsers(res.data);
+        try {
+            const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+            setUsers(res.data);
+        } catch (error) {
+            setUsers(null)
+        }
     }
 
     return (
@@ -25,9 +30,9 @@ function Users() {
             <h2>Users</h2>
             <Row>
                 {
-                    users.length === 0 ? "loading" :
+                    users.length === 0 ? <Loading /> :
                         users.map(u => (
-                            <UserCard 
+                            <UserCard
                                 id={u.id}
                                 name={u.name}
                                 email={u.email}
@@ -38,6 +43,8 @@ function Users() {
                                 key={u.id}
                             />
                         ))
+                }{
+                    users === null && "No data"
                 }
             </Row>
         </div>

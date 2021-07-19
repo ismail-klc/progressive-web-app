@@ -1,8 +1,8 @@
-import axios from 'axios'
+import axios from '../helpers/axios'
 import Link from 'next/link'
 import router from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Button, Col } from 'react-bootstrap'
+import { Button, Col, Alert } from 'react-bootstrap'
 import { useRecoilState } from 'recoil'
 import { authState } from '../states/auth'
 
@@ -11,8 +11,7 @@ const Register = () => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [auth, setAuth] = useRecoilState(authState);
-
-    const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         if (auth.user) {
@@ -23,18 +22,18 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Accept', 'application/json');
-
-        const res = await axios.post(`${url}/api/signup`, { name, email, password }, {
-            withCredentials: true,
-            headers: headers
-        })
-
-        if (res.status === 200) {
+        try {
+            const res = await axios.post(`/api/signup`, { name, email, password })
+            if (res.status === 200) {
+                setAuth({
+                    user: res.data,
+                    loaded: true
+                })
+            }
+        } catch (error) {
+            setError(error.response.data);
             setAuth({
-                user: res.data,
+                user: null,
                 loaded: true
             })
         }
@@ -52,7 +51,7 @@ const Register = () => {
                             <input
                                 value={name}
                                 onChange={e => setName(e.target.value)}
-                                type="text" className="form-control" placeholder="Full Name" required autoFocus />
+                                type="text" className="form-control" placeholder="Full Name" required />
                             <input
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
@@ -61,6 +60,12 @@ const Register = () => {
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 type="password" className="form-control" placeholder="Password" required />
+                            {
+                                error &&
+                                <Alert variant={'danger'}>
+                                    {error}
+                                </Alert>
+                            }
                             <div className="d-grid gap-2">
                                 <Button variant="secondary" type="submit">
                                     Sign up

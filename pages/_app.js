@@ -4,8 +4,9 @@ import '../styles/user-card.style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import MyNavbar from '../components/navbar'
 import Header from '../components/header'
-import axios from 'axios'
+import axios from '../helpers/axios'
 import { useEffect, useState } from 'react'
+import Loading from '../components/loading'
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false)
@@ -16,17 +17,11 @@ function MyApp({ Component, pageProps }) {
       async () => {
         setLoading(true)
 
-        const url = 'https://nodejs-firee.herokuapp.com' || 'http://localhost:8080'
-
         try {
-          const response = await fetch(`${url}/api/currentuser`, {
-            credentials: 'include',
-          });
-
-          const content = await response.json();
-
-          setUser(content.user);
-        } catch (e) {
+          const response = await axios.get(`/api/currentuser`)
+          setUser(response.data.user);
+        } 
+        catch (e) {
           setUser(null);
         }
         setLoading(false)
@@ -35,7 +30,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   if (loading) {
-    return null
+    return <Loading />
   }
 
   return (

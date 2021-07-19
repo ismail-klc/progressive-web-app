@@ -22,6 +22,9 @@ const Profile = () => {
                                 </div>
                                 <div className="about">
                                     <h5>About</h5>
+                                    {
+                                        JSON.stringify(auth.user)
+                                    }
                                     {/* <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p> */}
                                 </div>
                             </div>
